@@ -1,2 +1,3 @@
-# Camouflage_rework_BETA
-Beta for new camouflage!
+# Camouflage
+New Camouflage!
+more coming soon...
