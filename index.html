@@ -157,17 +157,17 @@
         }
 
         .game-card video {
-            filter: brightness(0.5); /* Darken the video when not hovered */
+            filter: brightness(0.5);
             visibility: hidden;
         }
 
         .game-card:hover video {
-            visibility: visible; /* Show video when hovered */
-            filter: brightness(1); /* Reset the darkening effect */
+            visibility: visible; 
+            filter: brightness(1); 
         }
 
         .game-card:hover img {
-            filter: brightness(0.5); /* Darken the image when hovered */
+            filter: brightness(0.5); 
         }
 
         .game-card .game-text {
@@ -182,17 +182,16 @@
         }
 
         .game-card:hover .game-text {
-            opacity: 1; /* Show text on hover */
+            opacity: 1; 
         }
 
-        /* Full-page Loading Screen */
         .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 1); /* Changed to solid black */
+            background: rgba(0, 0, 0, 1); 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -264,7 +263,6 @@
             <input type="text" placeholder="Search for a game..." id="gameSearch">
         </div>
         <div class="games-container" id="games">
-            <!-- Game Cards with Images and Videos -->
             <div onclick="gameshow('https://selenite.cc/semag/subway-surfers-ny/index.html')" class="game-card">
                 <img src="./images/subway.png" alt="Game 1">
                 <div class="game-text">Subway Surfers</div>
@@ -281,7 +279,6 @@
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4ODZjp9Qf2WrRr0ashD-38bqUOUDdKd3zfg&s" alt="Game 4">
                 <div class="game-text">Bitlife</div>
             </div>
-            <!-- Add more games as needed -->
         </div>
     </div>
 
@@ -315,7 +312,7 @@
             const video = game.querySelector('video');
             game.addEventListener('mouseenter', () => {
                 video.play();
-                video.currentTime = 0; // Reset the video to the beginning
+                video.currentTime = 0;
             });
 
             game.addEventListener('mouseleave', () => {
@@ -323,7 +320,6 @@
             });
         });
 
-        // Simulate page loading with a progress bar
         let progress = 0;
         const progressBar = document.getElementById('progressBar');
         const loadingScreen = document.getElementById('loadingScreen');
@@ -335,17 +331,16 @@
             if (progress >= 100) {
                 setTimeout(() => {
                     loadingScreen.classList.add('loaded');
-                }, 1000); // 1 second delay before hiding the loading screen
+                }, 1000);
             }
         }
 
-        // Simulate loading every 50ms
         setInterval(updateProgressBar, 50);
 
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.classList.add('loaded');
-            }, 2000); // Additional 2 seconds to keep the loading screen visible before removing it
+            }, 2000); 
         });
         function gameshow(url) {
             window.location.href = "/uv/redirect.html#" + url;
