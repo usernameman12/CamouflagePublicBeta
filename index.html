@@ -80,6 +80,7 @@
 
         .nav-links li {
             margin: 0 15px;
+            position: relative;
         }
 
         .nav-links a {
@@ -130,7 +131,11 @@
             align-items: center;
             justify-content: center;
             color: transparent;
+            position: relative;
+            overflow: hidden;
             transition: all 0.5s ease;
+            text-align: center;
+            cursor: pointer;
         }
 
         .game-card:hover {
@@ -139,13 +144,55 @@
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
         }
 
+        .game-card img,
+        .game-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .game-card video {
+            filter: brightness(0.5); /* Darken the video when not hovered */
+            visibility: hidden;
+        }
+
+        .game-card:hover video {
+            visibility: visible; /* Show video when hovered */
+            filter: brightness(1); /* Reset the darkening effect */
+        }
+
+        .game-card:hover img {
+            filter: brightness(0.5); /* Darken the image when hovered */
+        }
+
+        .game-card .game-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-card:hover .game-text {
+            opacity: 1; /* Show text on hover */
+        }
+
+        /* Full-page Loading Screen */
         .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 1);
+            background: rgba(0, 0, 0, 1); /* Changed to solid black */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -217,22 +264,24 @@
             <input type="text" placeholder="Search for a game..." id="gameSearch">
         </div>
         <div class="games-container" id="games">
-            <!-- Placeholder games -->
-            <div class="game-card">Game 1</div>
-            <div class="game-card">Game 2</div>
-            <div class="game-card">Game 3</div>
-            <div class="game-card">Game 4</div>
-            <div class="game-card">Game 5</div>
-            <div class="game-card">Game 6</div>
-            <div class="game-card">Game 7</div>
-            <div class="game-card">Game 8</div>
-            <div class="game-card">Game 9</div>
-            <div class="game-card">Game 10</div>
-            <div class="game-card">Game 11</div>
-            <div class="game-card">Game 12</div>
-            <div class="game-card">Game 13</div>
-            <div class="game-card">Game 14</div>
-            <div class="game-card">Game 15</div>
+            <!-- Game Cards with Images and Videos -->
+            <div onclick="gameshow('https://selenite.cc/semag/subway-surfers-ny/index.html')" class="game-card">
+                <img src="./images/subway.png" alt="Game 1">
+                <div class="game-text">Subway Surfers</div>
+            </div>
+            <div onclick="gameshow('https://selenite.cc/semag/cookieclicker/index.html')" class="game-card">
+                <img src="https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok" alt="Game 2">
+                <div class="game-text">Cookie Clicker</div>
+            </div>
+            <div onclick="gameshow('https://selenite.cc/semag/basketball-stars/index.html')" class="game-card">
+                <img src="https://static.wikia.nocookie.net/unblocked-games-freezenova/images/d/de/Basketball_Stars.jpg/revision/latest?cb=20240201231149" alt="Game 3">
+                <div class="game-text">Basketball Stars</div>
+            </div>
+            <div onclick="gameshow('https://selenite.cc/semag/bitlife/index.html')" class="game-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4ODZjp9Qf2WrRr0ashD-38bqUOUDdKd3zfg&s" alt="Game 4">
+                <div class="game-text">Bitlife</div>
+            </div>
+            <!-- Add more games as needed -->
         </div>
     </div>
 
@@ -244,9 +293,9 @@
             const currentTime = new Date().getTime();
             if (currentTime - lastTime >= throttleDelay) {
                 lastTime = currentTime;
-                var crosshair = document.querySelector('.crosshair');
-                var x = e.clientX;
-                var y = e.clientY;
+                const crosshair = document.querySelector('.crosshair');
+                const x = e.clientX;
+                const y = e.clientY;
                 crosshair.style.left = x + 'px';
                 crosshair.style.top = y + 'px';
             }
@@ -262,6 +311,19 @@
             });
         });
 
+        games.forEach(game => {
+            const video = game.querySelector('video');
+            game.addEventListener('mouseenter', () => {
+                video.play();
+                video.currentTime = 0; // Reset the video to the beginning
+            });
+
+            game.addEventListener('mouseleave', () => {
+                video.pause();
+            });
+        });
+
+        // Simulate page loading with a progress bar
         let progress = 0;
         const progressBar = document.getElementById('progressBar');
         const loadingScreen = document.getElementById('loadingScreen');
@@ -273,17 +335,21 @@
             if (progress >= 100) {
                 setTimeout(() => {
                     loadingScreen.classList.add('loaded');
-                }, 1000); 
+                }, 1000); // 1 second delay before hiding the loading screen
             }
         }
 
+        // Simulate loading every 50ms
         setInterval(updateProgressBar, 50);
 
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.classList.add('loaded');
-            }, 2000); 
+            }, 2000); // Additional 2 seconds to keep the loading screen visible before removing it
         });
+        function gameshow(url) {
+            window.location.href = "/uv/redirect.html#" + url;
+        }
     </script>
 </body>
 </html>
