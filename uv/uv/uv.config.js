@@ -1,10 +1,10 @@
 self.__uv$config = {
-    prefix: 'tiw/',
+    prefix: 'uv/service',
     bare:'https://bare.benrogo.net',
     encodeUrl: Ultraviolet.codec.xor.encode,
     decodeUrl: Ultraviolet.codec.xor.decode,
-    handler: '/public/static/uv/uv.handler.js',
-    bundle: '/public/static/uv/uv.bundle.js',
-    config: '/public/staticuv/uv.config.js',
-    sw: '/static/uv/uv.sw.js',
+    handler: '/uv/uv/uv.handler.js',
+    bundle: '/uv/uv/uv.bundle.js',
+    config: '/uv/uv/uv.config.js',
+    sw: '/uv/uv/uv.sw.js',
 };
