@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,27 +55,6 @@
             align-items: center;
             border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-            position: relative;
-        }
-
-        .typewriter {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5em;
-            color: #00ff00;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 2px solid #00ff00;
-            animation: blink-caret 0.7s step-end infinite;
-        }
-
-        @keyframes blink-caret {
-            50% {
-                border-color: transparent;
-            }
         }
 
         .image-name {
@@ -267,87 +247,121 @@
     <div class="crosshair"></div>
     <nav class="navbar">
         <div class="image-name">
-            <img src="icon.png" alt="Icon">
-            <span>Camouflage</span>
+            <img src="favicon.gif" width="100px" height="100px">
+            <p>Camouflage</p>
         </div>
         <div class="nav-links">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/"><i class="fa fa-home"></i></a></li>
+                <li><a href="/static/"><i class="fa fa-search"></i></a></li>
+                <li><a href="/apps.html"><i class="material-icons">apps</i></a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="typewriter" id="typewriter"></div>
-
     <div class="games-section">
         <div class="search-bar">
-            <input type="text" placeholder="Search games...">
+            <input type="text" placeholder="Search..." id="gameSearch">
         </div>
-        <div class="games-container">
-            <div class="game-card">
-                <img src="game1.jpg" alt="Game 1">
-                <div class="game-text">Game 1</div>
+        <div class="games-container" id="games">
+            <div onclick="gameshow('https://google-opensocial.googleusercontent.com/gadgets/ifr?url=https://218463058-163927403382736103.preview.editmysite.com/uploads/b/139890129-297434511671085883/files/mm.xml&container=ig')" class="game-card">
+                <img src="./img/monkeymart.png" alt="Game 1">
+                <div class="game-text">Monkey Mart</div>
             </div>
-            <div class="game-card">
-                <img src="game2.jpg" alt="Game 2">
-                <div class="game-text">Game 2</div>
+            <div onclick="gameshow('https://variant76652-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@e7d53b913d54429e5e118ca9541fb0f8f1f66bdc/dist/cc.xml')" class="game-card">
+                <img src="./img/cookie.png" alt="Game 2">
+                <div class="game-text">Cookie Clicker</div>
+            </div>
+            <div onclick="gameshow('https://prefix82060-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@c0c9f32fd575688ff4b14309e9acf19b73f15e2a/build/bs/bs.xml')" class="game-card">
+                <img src="./img/basketstars.png" alt="Game 3">
+                <div class="game-text">Basketball Legends</div>
+            </div>
+            <div onclick="gameshow('https://selenite.cc/semag/bitlife/index.html')" class="game-card">
+                <img src="./img/bitlife.png" alt="Game 4">
+                <div class="game-text">Bitlife</div>
+            </div>
+            <div onclick="gameshow('https://google.com')" class="game-card">
+                <img src="./img/google.png" alt="Game 5">
+                <div class="game-text">Google</div>
+            </div>
+            <div onclick="gameshow('https://duckduckgo.com')" class="game-card">
+                <img src="./img/bitlife.png" alt="Game 6">
+                <div class="game-text">DuckDuckGo</div>
+            </div>
+            <div onclick="gameshow('https://discord.com')" class="game-card">
+                <img src="./img/discord.png" alt="Game 7">
+                <div class="game-text">Discord</div>
+            </div>
+            <div onclick="gameshow('https://github.com')" class="game-card">
+                <img style="background-color: white;" src="./img/github.png" alt="Game 8">
+                <div class="game-text">Github</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Cursor functionality
-        const crosshair = document.querySelector('.crosshair');
-        document.addEventListener('mousemove', (e) => {
-            crosshair.style.left = `${e.pageX}px`;
-            crosshair.style.top = `${e.pageY}px`;
+        let lastTime = 0;
+        const throttleDelay = 10;
+
+        document.addEventListener('mousemove', function (e) {
+            const currentTime = new Date().getTime();
+            if (currentTime - lastTime >= throttleDelay) {
+                lastTime = currentTime;
+                const crosshair = document.querySelector('.crosshair');
+                const x = e.clientX;
+                const y = e.clientY;
+                crosshair.style.left = x + 'px';
+                crosshair.style.top = y + 'px';
+            }
         });
 
-        // Loading screen logic
-        const loadingScreen = document.getElementById('loadingScreen');
-        const progressBar = document.getElementById('progressBar');
+        const gameSearch = document.getElementById('gameSearch');
+        const games = document.querySelectorAll('.game-card');
+
+        gameSearch.addEventListener('input', () => {
+            const query = gameSearch.value.toLowerCase();
+            games.forEach(game => {
+                game.style.display = game.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
+            });
+        });
+
+        games.forEach(game => {
+            const video = game.querySelector('video');
+            game.addEventListener('mouseenter', () => {
+                video.play();
+                video.currentTime = 0;
+            });
+
+            game.addEventListener('mouseleave', () => {
+                video.pause();
+            });
+        });
+
         let progress = 0;
-
-        const interval = setInterval(() => {
-            progress += 10;
-            progressBar.style.width = `${progress}%`;
-
+        const progressBar = document.getElementById('progressBar');
+        const loadingScreen = document.getElementById('loadingScreen');
+        
+        function updateProgressBar() {
+            progress += 1;
+            progressBar.style.width = progress + '%';
+            
             if (progress >= 100) {
-                clearInterval(interval);
+                setTimeout(() => {
+                    loadingScreen.classList.add('loaded');
+                }, 1000);
+            }
+        }
+
+        setInterval(updateProgressBar, 50);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
                 loadingScreen.classList.add('loaded');
-            }
-        }, 200);
-
-        // Typewriter effect
-        const typewriterElement = document.getElementById('typewriter');
-        const messages = ["Welcome to Camouflage!", "Discover games like never before."];
-        let messageIndex = 0;
-        let charIndex = 0;
-
-        function type() {
-            if (charIndex < messages[messageIndex].length) {
-                typewriterElement.textContent += messages[messageIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(type, 100);
-            } else {
-                setTimeout(erase, 2000);
-            }
+            }, 2000); 
+        });
+        function gameshow(url) {
+            window.location.href = "/static/iframe.html#" + url;
         }
-
-        function erase() {
-            if (charIndex > 0) {
-                typewriterElement.textContent = messages[messageIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(erase, 50);
-            } else {
-                messageIndex = (messageIndex + 1) % messages.length;
-                setTimeout(type, 500);
-            }
-        }
-
-        type();
     </script>
 </body>
 </html>
