@@ -58,89 +58,55 @@
 <body>
     <div class="typewriter" id="typewriter"></div>
 
-    <!-- Rest of your code remains unchanged -->
-
     <script>
         const phrases = [
-            "Code hard, nap harder",
-"I don’t do errors, I do features",
-"RIP to my last commit",
-"Git push, pray it works",
-"Debugging is my cardio",
-"Not a bug, just a surprise",
-"CSS: Where dreams go to die",
-"My laptop’s cooler than yours",
-"Trust the process... mostly",
-"I’ll sleep when the code works",
-"Laying low, coding high",
-"I live in the terminal now",
-"Life’s too short for bad fonts",
-"In a committed relationship with Git",
-"Don’t break my code, bro",
-"Ctrl+S is my life line",
-"I’m here for the syntax, not the drama",
-"Code like nobody’s watching",
-"Sleep is for the weak, coffee is for the strong",
-"Ctrl+C, Ctrl+V is my lifestyle",
-"Don’t ask me for help, I’m debugging",
-"Coffee > code, but not by much",
-"Git rebase > your opinion",
-"Writing code, not excuses",
-"HTML is my first love",
-"Testing is overrated, I live dangerously",
-"Push it like it’s hot",
-"I make websites, not friends",
-"Can’t hear you over my terminal",
-"Keyboard warrior by day, code master by night",
-"My code’s clean, my room isn’t",
-"If it compiles, it’s a feature",
-"Pixel perfect? More like pixel dreamin"
-"Talk is cheap, code is priceless",
-"Debugging: Where fun goes to die",
-"CSS is my therapy",
-"Git commit -m ‘I’m alive!’",
-"My favorite programming language? Coffee",
-"Sorry, I don’t speak your bug language",
-"Don’t break my code, I’m emotionally attached",
-"Code first, sleep later",
-"Full stack, zero sleep",
-"Making mistakes so you don’t have to",
-"Can’t fix the bug, but at least I look cool doing it",
-"Refactor it until it breaks",
-"Build first, ask questions later",
-"Code > sleep, always",
-"HTML is a love language",
-"If it works, it’s magic; if it breaks, it’s my fault"
+            "Welcome to Camouflage",
+            "Welcome to Clean",
+            "Welcome to Css Heaven",
+            "Welcome to Better",
+            "Welcome to Unblocked",
+            "Welcome To Stealth"
         ];
 
         const typewriterElement = document.getElementById('typewriter');
+        let currentIndex = 0;
 
         function typeText(phrase) {
-            typewriterElement.textContent = ""; // Clear previous text
             let index = 0;
+            let isDeleting = false;
 
             function typeChar() {
-                if (index < phrase.length) {
-                    typewriterElement.textContent += phrase[index];
-                    index++;
-                    setTimeout(typeChar, Math.random() * 100 + 50); // Random speed
+                if (isDeleting) {
+                    typewriterElement.textContent = phrase.substring(0, index--);
+                    if (index < 0) {
+                        isDeleting = false;
+                        setTimeout(() => {
+                            currentIndex++;
+                            if (currentIndex < phrases.length) {
+                                typeText(phrases[currentIndex]);
+                            }
+                        }, 1000);
+                    } else {
+                        setTimeout(typeChar, Math.random() * 50 + 30);
+                    }
                 } else {
-                    setTimeout(() => {
-                        startTyping(); // Restart with a new phrase
-                    }, 2000);
+                    typewriterElement.textContent += phrase[index++];
+                    if (index < phrase.length) {
+                        setTimeout(typeChar, Math.random() * 100 + 50);
+                    } else {
+                        setTimeout(() => {
+                            isDeleting = true;
+                            typeChar();
+                        }, 2000);
+                    }
                 }
             }
 
             typeChar();
         }
 
-        function startTyping() {
-            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-            typeText(randomPhrase);
-        }
-
         window.onload = () => {
-            startTyping();
+            typeText(phrases[currentIndex]);
         };
     </script>
 </body>
