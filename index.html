@@ -65,6 +65,34 @@
             margin-right: 10px;
         }
 
+        .image-name p {
+            font-size: 1.5em;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid white;
+            width: 0;
+            animation: typing 3s steps(30) infinite, blink 0.5s step-end infinite alternate;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            from {
+                border-right-color: white;
+            }
+            to {
+                border-right-color: transparent;
+            }
+        }
+
         .nav-links {
             flex-grow: 1;
             display: flex;
@@ -93,96 +121,6 @@
         .nav-links a:hover {
             color: rgba(255, 255, 255, 1);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-        }
-
-        .games-section {
-            margin: 20px auto;
-            width: 80%;
-        }
-
-        .search-bar {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .search-bar input {
-            width: 60%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 2px solid rgba(0, 128, 0, 0.8);
-            font-size: 1em;
-            background: rgba(10, 20, 15, 0.9);
-            color: white;
-        }
-
-        .games-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .game-card {
-            width: 150px;
-            height: 150px;
-            background: rgba(0, 128, 0, 0.6);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: transparent;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s ease;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .game-card:hover {
-            background: rgba(0, 255, 0, 0.7);
-            color: white;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
-        }
-
-        .game-card img,
-        .game-card video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.3s ease;
-        }
-
-        .game-card video {
-            filter: brightness(0.5);
-            visibility: hidden;
-        }
-
-        .game-card:hover video {
-            visibility: visible; 
-            filter: brightness(1); 
-        }
-
-        .game-card:hover img {
-            filter: brightness(0.5); 
-        }
-
-        .game-card .game-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.2em;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .game-card:hover .game-text {
-            opacity: 1; 
         }
 
         .loading-screen {
@@ -247,7 +185,7 @@
     <nav class="navbar">
         <div class="image-name">
             <img src="favicon.gif" width="100px" height="100px">
-            <p>Camouflage</p>
+            <p id="typewriterText"></p>
         </div>
         <div class="nav-links">
             <ul>
@@ -258,88 +196,32 @@
         </div>
     </nav>
 
-    <div class="games-section">
-        <div class="search-bar">
-            <input type="text" placeholder="Search..." id="gameSearch">
-        </div>
-        <div class="games-container" id="games">
-            <div onclick="gameshow('https://google-opensocial.googleusercontent.com/gadgets/ifr?url=https://218463058-163927403382736103.preview.editmysite.com/uploads/b/139890129-297434511671085883/files/mm.xml&container=ig')" class="game-card">
-                <img src="./img/monkeymart.png" alt="Game 1">
-                <div class="game-text">Monkey Mart</div>
-            </div>
-            <div onclick="gameshow('https://variant76652-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@e7d53b913d54429e5e118ca9541fb0f8f1f66bdc/dist/cc.xml')" class="game-card">
-                <img src="./img/cookie.png" alt="Game 2">
-                <div class="game-text">Cookie Clicker</div>
-            </div>
-            <div onclick="gameshow('https://prefix82060-opensocial.googleusercontent.com/gadgets/ifr?container=ig&url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@c0c9f32fd575688ff4b14309e9acf19b73f15e2a/build/bs/bs.xml')" class="game-card">
-                <img src="./img/basketstars.png" alt="Game 3">
-                <div class="game-text">Basketball Legends</div>
-            </div>
-            <div onclick="gameshow('https://selenite.cc/semag/bitlife/index.html')" class="game-card">
-                <img src="./img/bitlife.png" alt="Game 4">
-                <div class="game-text">Bitlife</div>
-            </div>
-            <div onclick="gameshow('https://google.com')" class="game-card">
-                <img src="./img/google.png" alt="Game 5">
-                <div class="game-text">Google</div>
-            </div>
-            <div onclick="gameshow('https://duckduckgo.com')" class="game-card">
-                <img src="./img/bitlife.png" alt="Game 6">
-                <div class="game-text">DuckDuckGo</div>
-            </div>
-            <div onclick="gameshow('https://discord.com')" class="game-card">
-                <img src="./img/discord.png" alt="Game 7">
-                <div class="game-text">Discord</div>
-            </div>
-            <div onclick="gameshow('https://github.com')" class="game-card">
-                <img style="background-color: white;" src="./img/github.png" alt="Game 8">
-                <div class="game-text">Github</div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        let lastTime = 0;
-        const throttleDelay = 10;
+        const typewriterText = document.getElementById('typewriterText');
+        const phrases = [
+            "Welcome to Camouflage",
+            "Welcome to Clean",
+            "Welcome to Css Heaven",
+            "Welcome to Better",
+            "Welcome to Unblocked",
+            "Welcome to Stealth"
+        ];
 
-        document.addEventListener('mousemove', function (e) {
-            const currentTime = new Date().getTime();
-            if (currentTime - lastTime >= throttleDelay) {
-                lastTime = currentTime;
-                const crosshair = document.querySelector('.crosshair');
-                const x = e.clientX;
-                const y = e.clientY;
-                crosshair.style.left = x + 'px';
-                crosshair.style.top = y + 'px';
-            }
-        });
+        let currentPhraseIndex = 0;
 
-        const gameSearch = document.getElementById('gameSearch');
-        const games = document.querySelectorAll('.game-card');
+        function typePhrase() {
+            const text = phrases[currentPhraseIndex];
+            typewriterText.textContent = text;
+            currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+        }
 
-        gameSearch.addEventListener('input', () => {
-            const query = gameSearch.value.toLowerCase();
-            games.forEach(game => {
-                game.style.display = game.textContent.toLowerCase().includes(query) ? 'flex' : 'none';
-            });
-        });
+        setInterval(typePhrase, 3000); // Changes every 3 seconds
 
-        games.forEach(game => {
-            const video = game.querySelector('video');
-            game.addEventListener('mouseenter', () => {
-                video.play();
-                video.currentTime = 0;
-            });
-
-            game.addEventListener('mouseleave', () => {
-                video.pause();
-            });
-        });
-
+        // Loading screen progress
         let progress = 0;
         const progressBar = document.getElementById('progressBar');
         const loadingScreen = document.getElementById('loadingScreen');
-        
+
         function updateProgressBar() {
             progress += 1;
             progressBar.style.width = progress + '%';
@@ -347,6 +229,7 @@
             if (progress >= 100) {
                 setTimeout(() => {
                     loadingScreen.classList.add('loaded');
+                    setInterval(typePhrase, 3000); // Start typewriter after loading
                 }, 1000);
             }
         }
@@ -358,9 +241,6 @@
                 loadingScreen.classList.add('loaded');
             }, 2000); 
         });
-        function gameshow(url) {
-            window.location.href = "/static/iframe.html#" + url;
-        }
     </script>
 </body>
 </html>
