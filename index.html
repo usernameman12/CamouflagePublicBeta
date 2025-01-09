@@ -54,6 +54,27 @@
             align-items: center;
             border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            position: relative;
+        }
+
+        .typewriter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #00ff00;
+            animation: blink-caret 0.7s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            50% {
+                border-color: transparent;
+            }
         }
 
         .image-name {
@@ -63,27 +84,6 @@
 
         .image-name img {
             margin-right: 10px;
-        }
-
-        .image-name p {
-            font-size: 1.5em;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 2px solid white;
-        }
-
-        @keyframes blink {
-            from {
-                border-right-color: white;
-            }
-            to {
-                border-right-color: transparent;
-            }
-        }
-
-        .image-name p {
-            animation: blink 0.5s step-end infinite alternate;
         }
 
         .nav-links {
@@ -114,6 +114,96 @@
         .nav-links a:hover {
             color: rgba(255, 255, 255, 1);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .games-section {
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid rgba(0, 128, 0, 0.8);
+            font-size: 1em;
+            background: rgba(10, 20, 15, 0.9);
+            color: white;
+        }
+
+        .games-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .game-card {
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 128, 0, 0.6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            background: rgba(0, 255, 0, 0.7);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
+        }
+
+        .game-card img,
+        .game-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .game-card video {
+            filter: brightness(0.5);
+            visibility: hidden;
+        }
+
+        .game-card:hover video {
+            visibility: visible; 
+            filter: brightness(1); 
+        }
+
+        .game-card:hover img {
+            filter: brightness(0.5); 
+        }
+
+        .game-card .game-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-card:hover .game-text {
+            opacity: 1; 
         }
 
         .loading-screen {
@@ -177,70 +267,87 @@
     <div class="crosshair"></div>
     <nav class="navbar">
         <div class="image-name">
-            <img src="favicon.gif" width="100px" height="100px">
-            <p id="typewriterText"></p>
+            <img src="icon.png" alt="Icon">
+            <span>Camouflage</span>
         </div>
         <div class="nav-links">
             <ul>
-                <li><a href="/"><i class="fa fa-home"></i></a></li>
-                <li><a href="/static/"><i class="fa fa-search"></i></a></li>
-                <li><a href="/apps.html"><i class="material-icons">apps</i></a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </div>
     </nav>
 
+    <div class="typewriter" id="typewriter"></div>
+
+    <div class="games-section">
+        <div class="search-bar">
+            <input type="text" placeholder="Search games...">
+        </div>
+        <div class="games-container">
+            <div class="game-card">
+                <img src="game1.jpg" alt="Game 1">
+                <div class="game-text">Game 1</div>
+            </div>
+            <div class="game-card">
+                <img src="game2.jpg" alt="Game 2">
+                <div class="game-text">Game 2</div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const typewriterText = document.getElementById('typewriterText');
-        const phrases = [
-            "Welcome to Camouflage",
-            "Welcome to Clean",
-            "Welcome to CSS Heaven",
-            "Welcome to Better",
-            "Welcome to Unblocked",
-            "Welcome to Stealth"
-        ];
+        // Cursor functionality
+        const crosshair = document.querySelector('.crosshair');
+        document.addEventListener('mousemove', (e) => {
+            crosshair.style.left = `${e.pageX}px`;
+            crosshair.style.top = `${e.pageY}px`;
+        });
 
-        let currentPhraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-
-        function typeEffect() {
-            const currentPhrase = phrases[currentPhraseIndex];
-            if (isDeleting) {
-                typewriterText.textContent = currentPhrase.substring(0, charIndex--);
-            } else {
-                typewriterText.textContent = currentPhrase.substring(0, charIndex++);
-            }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                setTimeout(typeEffect, 1500); // Pause before deleting
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-            }
-
-            setTimeout(typeEffect, isDeleting ? 50 : 100); // Typing and deleting speeds
-        }
-
-        // Loading screen progress
-        let progress = 0;
-        const progressBar = document.getElementById('progressBar');
+        // Loading screen logic
         const loadingScreen = document.getElementById('loadingScreen');
+        const progressBar = document.getElementById('progressBar');
+        let progress = 0;
 
-        function updateProgressBar() {
-            progress += 1;
-            progressBar.style.width = progress + '%';
-            
+        const interval = setInterval(() => {
+            progress += 10;
+            progressBar.style.width = `${progress}%`;
+
             if (progress >= 100) {
-                setTimeout(() => {
-                    loadingScreen.classList.add('loaded');
-                    typeEffect(); // Start typewriter after loading
-                }, 1000);
+                clearInterval(interval);
+                loadingScreen.classList.add('loaded');
+            }
+        }, 200);
+
+        // Typewriter effect
+        const typewriterElement = document.getElementById('typewriter');
+        const messages = ["Welcome to Camouflage!", "Discover games like never before."];
+        let messageIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < messages[messageIndex].length) {
+                typewriterElement.textContent += messages[messageIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, 100);
+            } else {
+                setTimeout(erase, 2000);
             }
         }
 
-        setInterval(updateProgressBar, 50);
+        function erase() {
+            if (charIndex > 0) {
+                typewriterElement.textContent = messages[messageIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, 50);
+            } else {
+                messageIndex = (messageIndex + 1) % messages.length;
+                setTimeout(type, 500);
+            }
+        }
+
+        type();
     </script>
 </body>
 </html>
