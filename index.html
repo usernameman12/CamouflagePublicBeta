@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +50,13 @@
             z-index: 9999;
             transform: translate(-50%, -50%);
             border-radius: 50%;
+            transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
+        }
+
+        .crosshair.active {
+            width: 50px;
+            height: 50px;
+            transform: translate(-50%, -50%) scale(1.2);
         }
 
         .sidebar {
@@ -314,7 +318,7 @@
         <div>Loading...</div>
     </div>
 
-    <div class="crosshair"></div>
+    <div class="crosshair" id="customCursor"></div>
     <button class="toggle-btn"><i class="fa fa-bars"></i></button>
     <div class="sidebar">
         <div class="logo">
@@ -372,16 +376,28 @@
     <script>
         let lastTime = 0;
         const throttleDelay = 10;
+        const crosshair = document.getElementById('customCursor');
 
         document.addEventListener('mousemove', function (e) {
             const currentTime = new Date().getTime();
             if (currentTime - lastTime >= throttleDelay) {
                 lastTime = currentTime;
-                const crosshair = document.querySelector('.crosshair');
                 const x = e.clientX;
                 const y = e.clientY;
                 crosshair.style.left = x + 'px';
                 crosshair.style.top = y + 'px';
+            }
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.classList.contains('game-card')) {
+                crosshair.classList.add('active');
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.classList.contains('game-card')) {
+                crosshair.classList.remove('active');
             }
         });
 
